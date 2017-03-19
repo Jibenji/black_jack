@@ -4,12 +4,16 @@ require_relative "deck.rb"
 
 class Bank
   attr_reader :name, :score, :account, :hand
-  def initialize(deck)
+  def initialize(params = {})
     @name = "The Bank"
     @score = 0
     @account = 100_000
     @hand = Hand.new(params[:deck])
     @deck = params[:deck]
+  end
+
+  def draw_first_hand
+    @hand = Hand.new(@deck)
   end
 
   def hit
@@ -19,14 +23,6 @@ class Bank
 
   def draw_first_hand
     @hand.draw_first_hand
-  end
-
-  def stand
-    return false
-  end
-
-  def push?
-
   end
 
   def bank_score
