@@ -3,59 +3,56 @@ require_relative "hand.rb"
 require_relative "deck.rb"
 
 class Player
-  attr_reader :name, :score, :bet, :hand1
+  attr_reader :name, :score, :bet, :hand, :hand1, :hand2
   def initialize(params = {})
     @name = params[:player_name]
     @score = 0
     @account = 1_000
     @bet = 0
-    @hand1 = Hand.new(params[:deck])
+    @hand = Hand.new(params[:deck])
     @deck = params[:deck]
+    @hand1 = 0
+    @hand2 = 0
+    @natural = false
   end
 
-  def hit
+  def draw_first_hand
+    @hand.draw_first_hand
+  end
+
+  def hit(hand)
     new_card = @deck.draw
-    @hand1.add_card_to_hand(new_card)
+    hand.add_card_to_hand(new_card)
   end
 
   def stand
     return false
   end
 
+  def natural?(hand)
+    self.player_score(hand) == 21 ? @natural = true : @natural = false
+  end
+
+  def split
+      @hand1 = Hand.new(@deck)
+      @hand2 = Hand.new(@deck)
+      @hand1.split(@hand.cards[0])
+      @hand2.split(@hand.cards[1])
+      @hand = 0
+  end
+
   def bet(amount)
     @account - amount
   end
 
-  # def split
-  #   Hand.new
-  # end
-
-  def player_score
+  def player_score(hand)
     @score = 0
-    @hand1.cards.each do |card|
-      if card.card_value == 12 && (@score + card.card_value) > 21
-        @score += 1
-      elsif card.card_value == 12 && (@score + card.card_value) <= 21
-        @score += 11
-      else
-        @score += card.card_value
-      end
+    ace_number = 0
+    hand.cards.each do |card|
+      card.card_value == 1 ? (@score += 1) && (ace_number += 1) : @score += card.card_value
     end
-    @score
+    (@score <= 11) && (ace_number != 0) ? @score += 10 : @score
   end
 end
 
 
- first_deck = Deck.new
-
-jib = Player.new({player_name: "jibenji", deck: first_deck})
-
-# bib = Player.new({player_name: "zozo", deck: first_deck})
-
-
-jib.hit
-p jib.hand1
-
-
-jib.player_score
-p jib.score

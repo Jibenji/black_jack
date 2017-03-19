@@ -4,25 +4,54 @@ require_relative "deck.rb"
 require_relative "view.rb"
 
 class Controller
-
-  def initialize()
-
+  attr_reader :players
+  def initialize
     @view = View.new
-
+    @deck = Deck.new
+    @bank = Bank.new(@deck)
+    @players = []
   end
 
-  first_deck = Deck.new
+  def ask_player_number
+    player_number = @view.ask_player_number
+    ask_player_name(player_number)
+  end
 
-jib = Player.new({player_name: "jibenji", deck: first_deck})
+  def ask_player_name(player_number)
+    player_number.times do |i|
+      player_name = @view.ask_player_name(i + 1)
+      create_player(player_name)
+    end
+  end
 
-bib = Player.new({player_name: "zozo", deck: first_deck})
+  def create_player(player_name)
+    params = {
+      deck: @deck,
+      player_name: player_name,
+    }
+    @players << Player.new(params)
+  end
 
-jib.hit
-bib.hit
+  def players_draw_first_hand
+    @players.each do |player|
+      player.draw_first_hand
+      natural?(player)
+    end
+  end
 
-p jib.hand1
-p bib.hand1
+  def bank_draw_first_hand
+    @bank.draw_first_hand
+  end
 
-p first_deck
-
+  def natural?(player)
+    if player.natural?(player.hand) == true
+      @view.black_jack
+    end
+  end
 end
+
+game = Controller.new
+game.ask_player_number
+
+
+

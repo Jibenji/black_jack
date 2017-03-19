@@ -9,7 +9,7 @@ class Card
 
   def card_value
     if self.name.include? "ace"
-      card_value = 12
+      card_value = 1
     else
       card_value = self.value[0]
     end

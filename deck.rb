@@ -5,7 +5,7 @@ class Deck
 
   def initialize
   @deck = {
-  ace_clubs: [1, 11],
+  ace_clubs: [1],
   two_clubs: [2],
   three_clubs: [3],
   four_clubs: [4],
@@ -18,7 +18,7 @@ class Deck
   jack_clubs: [10],
   queen_clubs: [10],
   king_clubs:  [10],
-  ace_diamonds: [1, 11],
+  ace_diamonds: [1],
   two_diamonds: [2],
   three_diamonds: [3],
   four_diamonds: [4],
@@ -31,7 +31,7 @@ class Deck
   jack_diamonds: [10],
   queen_diamonds: [10],
   king_diamonds: [10],
-  ace_hearts: [1, 11],
+  ace_hearts: [1],
   two_hearts: [2],
   three_hearts: [3],
   four_hearts: [4],
@@ -44,7 +44,7 @@ class Deck
   jack_hearts: [10],
   queen_hearts: [10],
   king_hearts: [10],
-  ace_spades: [1, 11],
+  ace_spades: [1],
   two_spades: [2],
   three_spades: [3],
   four_spades: [4],
